@@ -1,0 +1,30 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Fall Limited Edition Sneakers",
+      "companyName": "Sneaker Company",
+      "actualPrice": 250,
+      "discountPrice": 50,
+      "discountType": "percentage",
+      "imageSource":[
+        {
+            "thumbnailSrc":"/images/image-product-1-thumbnail.jpg",
+            "src":"/images/image-product-1.jpg"
+        },
+        {
+            "thumbnailSrc":"/images/image-product-3-thumbnail.jpg",
+            "src":"/images/image-product-3.jpg"
+        },
+        {
+            "thumbnailSrc":"/images/image-product-3-thumbnail.jpg",
+            "src":"/images/image-product-3.jpg"
+        },
+        {
+            "thumbnailSrc":"/images/image-product-4-thumbnail.jpg",
+            "src":"/images/image-product-4.jpg"
+        }
+      ]
+    }
+  ]
+}
