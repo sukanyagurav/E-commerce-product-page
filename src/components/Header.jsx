@@ -19,8 +19,8 @@ const Header = () => {
             <a href="#none">
                 <img src={cart} alt="cart icon" />
             </a>
-            <button>
-                <img className='w-[50px] h-[50px]' src={profile} alt="user profile icon" />
+            <button className='border-2 border-transparent transition-all duration-300 hover:border-orange w-[50px] h-[50px] rounded-full overflow-hidden'>
+                <img className='w-[50px] h-[50px] rounded-full' src={profile} alt="user profile icon" />
             </button>
         </div>
     </header>
