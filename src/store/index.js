@@ -26,7 +26,60 @@ const itemStore = (set,get)=>({
             }
         })
     },
-    removeItem:()=>{},
+
+    // removeItem:(id)=>{
+    //     set((state)=>{
+    //         const existingCartIndex =state.cart.findIndex((cartItem)=>cartItem.id ==id)
+    //         const updatedItems = [...state.cart]
+    //         const existingItem = updatedItems[existingCartIndex]
+    //         console.log(id)
+    //         if(existingItem.quantity > 1){  
+    //             const updatedItem = {
+    //                 ...existingItem,
+    //                 quantity:existingItem.quantity - 1,
+    //                 price : existingItem.price - existingItem.price
+    //             }
+    //             updatedItems[existingCartIndex]  = updatedItem
+    //         }else{
+    //             updatedItems.splice(existingCartIndex,1)
+    //         }
+
+    //         return {
+    //             cart:[...updatedItems]
+    //         }
+    //     })
+    // },
+    getProductQuantiy:(id)=>{
+        // const existingCartIndex =get().cart.findIndex((cartItem)=>cartItem.id ==id)
+        // const existingItem = get().cart[existingCartIndex]
+        // if(existingItem){
+        //     return existingItem.quantity
+        // }else{
+        //     return 0
+        // }
+        return get().cart.quantity ? get().cart.quantity : 0
+    },
+    setQuantity:(quantity)=>{
+        set((state)=>{
+             const existingCartIndex =state.cart.findIndex((cartItem)=>cartItem.id == quantity.id)
+             const existingItem = state.cart[existingCartIndex]
+             console.log(quantity)
+              if(existingItem?.quantity){
+                return {
+                    ...existingItem,
+                    quantity:quantity
+                }
+              }
+        })  
+    },
+
+    updateCart:(item)=>{
+        set((state)=>{
+            return {
+                cart:[...item]
+            }
+        })
+    },
     clearCart:()=>{}
 })
 

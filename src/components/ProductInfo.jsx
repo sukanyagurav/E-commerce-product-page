@@ -42,26 +42,56 @@ const dumyProduct = {
 };
 const Product = () => {
   const [open, setOpen] = useState(false);
-  const [quantity,setQuanity] =useState(0)
-  const {addItem} = useCartStore()
-  function handleModal(){
-    setOpen(true)
+  const id = 1;
+  const { getProductQuantiy, cart } = useCartStore();
+
+  const storedQuantity = cart.findIndex((cartItem) => cartItem.id == id);
+  const [quantity, setQuantity] = useState(
+    storedQuantity > -1 ? cart[storedQuantity].quantity : 0
+  );
+  function handleModal() {
+    setOpen(true);
   }
 
-  function handleAdd(item){
-    setQuanity(quantity => quantity+=1)
-    addItem({...item,    quantity:quantity})
-    
+  function handleAdd() {
+    console.log(quantity);
+    // addItem({...item,    quantity:quantity})
+    setQuantity((quantity) => {
+      if(quantity <10){
+        quantity += 1;
+        return quantity;
+      }
+      return quantity
+    });
   }
-  function handleRemove(id){
-    setQuanity(quantity => quantity-=1)
+  function handleRemove(id) {
+    setQuantity((quantity) => {
+      if(quantity >=0){
+        quantity -= 1;
+        return quantity;
+      }
+      return quantity
+    });
   }
+
+  function updateCart() {}
   return (
     <section className="flex max-w-[1200px] flex-col md:flex-row mx-auto md:gap-10 lg:gap-16 items-center  md:my-9 md:px-4">
-      <ProductImage imageSource={dumyProduct.imageSource} openModal={handleModal} key="1" />
-     {open && <Modal isOpen={open} closeModal={()=>setOpen(false)}>
-        <ProductImage imageSource={dumyProduct.imageSource} showBtn="show" openModal={handleModal}    key="1" />
-      </Modal>}
+      <ProductImage
+        imageSource={dumyProduct.imageSource}
+        openModal={handleModal}
+        key="1"
+      />
+      {open && (
+        <Modal isOpen={open} closeModal={() => setOpen(false)}>
+          <ProductImage
+            imageSource={dumyProduct.imageSource}
+            showBtn="show"
+            openModal={handleModal}
+            key="1"
+          />
+        </Modal>
+      )}
       <div className="mt-8 w-full p-4 md:p-0 md:w-1/2 md:max-w-[480px] md:mt-0 ">
         <span className="text-grayish-blue text-sm tracking-[0.1em] block uppercase font-bold">
           {dumyProduct.companyName}
@@ -87,15 +117,33 @@ const Product = () => {
         </span>
         <div className="flex flex-col md:flex-row  gap-6 my-9 items-center">
           <div className="bg-light-grayish-blue w-full flex justify-between items-center rounded-lg h-[50px]">
-            <button className="w-12 h-full px-4" disabled={quantity == 0} onClick={handleRemove}>
+            <button
+              className={`w-12 h-full px-4 ${
+                quantity === 0 && "opacity-[0.5] cursor-not-allowed"
+              }`}
+              disabled={quantity === 0}
+              onClick={() => handleRemove(dumyProduct.id)}
+            >
               <img src={minus} alt="decrease quantity by 1  " />
             </button>
-            <span className="block px-4 text-dark-blue2 font-bold">{quantity}</span>
-            <button className="w-12 h-full px-4" onClick={()=> handleAdd({id:dumyProduct.id,name:dumyProduct.name,price:dumyProduct.price}) } disabled={quantity >= 10}>
+            <span className="block px-4 text-dark-blue2 font-bold">
+              {quantity}
+            </span>
+            <button
+              className={`w-12 h-full px-4 ${
+                quantity >= 10 && "opacity-[0.5] cursor-not-allowed"
+              }`}
+              onClick={() => handleAdd(id)}
+            >
               <img src={plus} alt="increase quantity by 1" />
             </button>
           </div>
-          <button className=" px-4 w-full flex justify-center items-center gap-2 hover:opacity-[0.6]  bg-orange py-3 rounded-lg">
+          <button
+            onClick={updateCart}
+            className={` px-4 w-full flex justify-center items-center gap-2 hover:opacity-[0.6]  bg-orange py-3 rounded-lg ${
+              quantity === 0 && "opacity-[0.5] cursor-not-allowed"
+            }`}
+          >
             <img src={cart} alt="" className="w-4 h-4" />
             <span className="font-bold  text-dark-blue2">Add to Cart</span>
           </button>
