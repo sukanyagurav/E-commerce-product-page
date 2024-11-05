@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import minus from "/images/icon-minus.svg";
 import plus from "/images/icon-plus.svg";
-import cart from "/images/icon-cart.svg";
-import { currencyFormatter } from "../utils/utilis";
+import cartImage from "/images/icon-cart.svg";
+import { calculateDiscount, currencyFormatter } from "../utils/utilis";
 
 import ProductImage from "./ProductImage";
 import Modal from "./Modal";
@@ -43,7 +43,7 @@ const dumyProduct = {
 const Product = () => {
   const [open, setOpen] = useState(false);
   const id = 1;
-  const { getProductQuantiy, cart } = useCartStore();
+  const { cart, updateCart } = useCartStore();
 
   const storedQuantity = cart.findIndex((cartItem) => cartItem.id == id);
   const [quantity, setQuantity] = useState(
@@ -54,27 +54,27 @@ const Product = () => {
   }
 
   function handleAdd() {
-    console.log(quantity);
-    // addItem({...item,    quantity:quantity})
     setQuantity((quantity) => {
-      if(quantity <10){
+      if (quantity < 10) {
         quantity += 1;
         return quantity;
       }
-      return quantity
+      return quantity;
     });
   }
-  function handleRemove(id) {
+  function handleRemove() {
     setQuantity((quantity) => {
-      if(quantity >=0){
+      if (quantity >= 0) {
         quantity -= 1;
         return quantity;
       }
-      return quantity
+      return quantity;
     });
   }
 
-  function updateCart() {}
+  function updateItems(item) {
+    updateCart(item);
+  }
   return (
     <section className="flex max-w-[1200px] flex-col md:flex-row mx-auto md:gap-10 lg:gap-16 items-center  md:my-9 md:px-4">
       <ProductImage
@@ -93,7 +93,7 @@ const Product = () => {
         </Modal>
       )}
       <div className="mt-8 w-full p-4 md:p-0 md:w-1/2 md:max-w-[480px] md:mt-0 ">
-        <span className="text-grayish-blue text-sm tracking-[0.1em] block uppercase font-bold">
+        <span className="text-orange text-sm tracking-[0.1em] block uppercase font-bold">
           {dumyProduct.companyName}
         </span>
         <h1 className="text-4xl font-bold tracking-wider mt-4 mb-12">
@@ -104,7 +104,15 @@ const Product = () => {
         </p>
 
         <h2 className="inline-flex mr-[2rem]  items-center font-bold gap-4 mt-4">
-          <span className="text-3xl ">$ 125.00</span>
+          <span className="text-3xl ">
+            {currencyFormatter.format(
+              calculateDiscount(
+                dumyProduct.actualPrice,
+                dumyProduct.discountPrice,
+                dumyProduct.discountType
+              )
+            )}
+          </span>
           {dumyProduct.discountType && (
             <span className="bg-dark-blue2 text-light-white rounded-lg  p-2  py-1 text-[0.85em] ">
               {dumyProduct.discountPrice}
@@ -133,18 +141,33 @@ const Product = () => {
               className={`w-12 h-full px-4 ${
                 quantity >= 10 && "opacity-[0.5] cursor-not-allowed"
               }`}
-              onClick={() => handleAdd(id)}
+              onClick={() => handleAdd()}
             >
               <img src={plus} alt="increase quantity by 1" />
             </button>
           </div>
           <button
-            onClick={updateCart}
+            onClick={() =>
+              updateItems({
+                id: dumyProduct.id,
+                name: dumyProduct.name,
+                companyName: dumyProduct.companyName,
+                discountPrice: dumyProduct.discountPrice,
+                actualPrice: dumyProduct.actualPrice,
+                quantity,
+                imageSource: dumyProduct.imageSource,
+                discountTotalPrice: calculateDiscount(
+                  dumyProduct.actualPrice,
+                  dumyProduct.discountPrice,
+                  dumyProduct.discountType
+                ),
+              })
+            }
             className={` px-4 w-full flex justify-center items-center gap-2 hover:opacity-[0.6]  bg-orange py-3 rounded-lg ${
               quantity === 0 && "opacity-[0.5] cursor-not-allowed"
             }`}
           >
-            <img src={cart} alt="" className="w-4 h-4" />
+            <img src={cartImage} alt="" className="w-4 h-4" />
             <span className="font-bold  text-dark-blue2">Add to Cart</span>
           </button>
         </div>
