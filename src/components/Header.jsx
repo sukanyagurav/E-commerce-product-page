@@ -22,9 +22,9 @@ const Header = () => {
       <div className="flex items-center ml-auto gap-7">
         <button href="#none" className="relative" onClick={() => setOpen(true)}>
           <img src={cartIcon} alt="cart icon" />
-          <span className="bg-orange text-white rounded-full text-sm absolute font-bold w-6 h-6 flex items-center justify-center  -top-4 p-2 -right-4">
+         { quantity > 0 && <span className="bg-orange text-white rounded-full text-sm absolute font-bold w-6 h-6 flex items-center justify-center  -top-4 p-2 -right-4">
             {quantity}
-          </span>
+          </span>}
         </button>
         <button
           className="border-2 border-transparent transition-all duration-300 hover:border-orange w-[40px] h-[40px] rounded-full overflow-hidden"
