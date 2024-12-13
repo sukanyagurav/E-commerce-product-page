@@ -1,3 +1,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.link::after{
+    @apply content-[''] w-full h-[2px] absolute -bottom-3 md:-bottom-[2.2rem] left-0;
+}
+
+.link:hover{
+    color: orange;
+}
+.link:hover::after{
+    background-color: orange;
+}
+
+@keyframes show {
+    0%{
+        left: -999px;
+    }
+    100%{
+        left: 0;
+    }
+}

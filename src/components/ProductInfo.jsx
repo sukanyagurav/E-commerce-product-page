@@ -46,12 +46,13 @@ const Product = () => {
   const { cart, updateCart } = useCartStore();
 
   const storedQuantity = cart.findIndex((cartItem) => cartItem.id == id);
-  const [quantity, setQuantity] = useState(
-    storedQuantity > -1 ? cart[storedQuantity].quantity : 0
-  );
+  const [quantity, setQuantity] = useState(0 );
   function handleModal() {
     setOpen(true);
   }
+  useEffect(()=>{
+    setQuantity(storedQuantity > -1 ? cart[storedQuantity].quantity : 0)
+  },[storedQuantity])
 
   function handleAdd() {
     setQuantity((quantity) => {
