@@ -25,7 +25,7 @@ const ProductImage = ({  showBtn = "hidden",imageSource,openModal}) => {
               showBtn == "hidden" ? "w-1/2" : "w-full"
             }`}>
     
-        <div className="w-full h-[500px] relative flex  overflow-hidden md:rounded-2xl">
+        <div className="w-full h-[500px] relative flex  overflow-hidden md:rounded-2xl  ">
           {imageSource.map((image, i) => (
             <img key={image.id}
               onClick={openModal}

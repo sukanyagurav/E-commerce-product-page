@@ -39,11 +39,11 @@ const Header = () => {
       </div>
       {open && (
         <>
-        <div className="hidden md:block w-full h-full  fixed top-0 left-0 -z-1"
+        <div className="w-full h-full fixed top-0 left-0 z-30"
         onClick={() => setOpen(false)}>
 
         </div>
-        <div className="rounded-lg absolute top-32 md:top-24 shadow-lg w-full right-0 md:right-24 bg-white z-10  items-center min-h-[200px] md:w-[380px]">
+        <div className="rounded-lg absolute top-32 md:top-24 shadow-lg w-full right-0 md:right-24 bg-white z-50  items-center min-h-[200px] md:w-[380px]">
           <h2 className="p-4 border-b-2 text-gray-500 font-bold">Cart</h2>
 
           {cart.length == 0 ? (
@@ -77,7 +77,7 @@ const Header = () => {
                         </span>
                       </p>
                     </div>
-                    <button onClick={() => removeItem(cartItem.id)}>
+                    <button onClick={() => removeItem(cartItem.id)} className="block ml-auto">
                       <img src={deleteIcon} />
                     </button>
                   </div>
